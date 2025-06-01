@@ -1,0 +1,71 @@
+<%=layout("layout/boilerplate.ejs")%>
+    <div class="row">
+        <div class="col-8 offset-2 ">
+            <br>
+            <form method="POST" action="/listings" class="needs-validation" novalidate enctype="multipart/form-data">
+                <div class="mb-2  ">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" name="title" class="form-control" id="title" required>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div id="validationServer03Feedback" class="invalid-feedback">
+                        Provide a title
+                    </div>
+                </div>
+                <div>
+                    <label for="description" class="form-label">Description</label>
+                    <textarea name="description" class="form-control" id="description" required></textarea>
+                    <div id="validationServer03Feedback" class="invalid-feedback">
+                        Please enter short descrption
+                    </div>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                     <label for="image" class="form-label">Upload Listnig Image</label>
+                    <input type="file" name="image" class="form-control" id="image" required>
+                </div>
+
+                <div class="row">
+                    <div class="mb-3 col-md-4">
+                        <label for="price" class="form-label">Price</label>
+                        <input  name="price" class="form-control" id="price" required>
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            Enter valid price
+                        </div>
+                        <div class="valid-feedback">
+                             Looks good!
+                        </div>
+                    </div>
+
+                    <div class="mb-3 col-md-8">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" name="country" class="form-control" id="country" required>
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            Please enter country name
+                        </div>
+                        <div class="valid-feedback">
+                             Looks good!
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" name="location" class="form-control" id="location" required>
+                    <div id="validationServer03Feedback" class="invalid-feedback">
+                        Location should be valid
+                    </div>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                </div>
+                <button class="btn btn-dark add-btn">Add</button>
+                <br><br>
+            </form>
+        </div>
+    </div>

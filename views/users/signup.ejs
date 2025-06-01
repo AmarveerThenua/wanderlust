@@ -1,0 +1,51 @@
+<%= layout("layout/boilerplate.ejs")%>
+
+    <body>
+        <div class="row">
+            <div class="col-8 offset-2 ">
+                <br>
+                <h1>Signup on Wanderlust</h1>
+                <form method="POST" action="/users/signup" novalidate class="needs-validation">
+                    <div class="mb-2  ">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" required name="username" class="form-control" id="username" required>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            USername required
+                        </div>
+
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" name="email" class="form-control" id="email" required>
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            Enter email
+                        </div>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" required name="password" class="form-control" id="password">
+                        <div id="validationServer03Feedback" class="invalid-feedback">
+                            Enter password
+                        </div>
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+
+
+
+                    <button class="btn btn-success">Submit</button>
+                    <br><br>
+                </form>
+            </div>
+        </div>
+    </body>
