@@ -17,7 +17,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const port = 8080;
-
+const homeRouter = require('./routes');
 
 const dbUrl = process.env.ATLASTB_URL;
 async function main() {
@@ -91,6 +91,7 @@ app.get("/demouser", async (req, res) => {
   res.send(registerdUser);
 });
 
+app.use('/', homeRouter);
 app.use("/listings", listingsRouter);
 app.use("/listings/:id/reviews", reviewsRouter);
 app.use("/users", usersRouter);
