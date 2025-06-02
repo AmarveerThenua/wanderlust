@@ -3,8 +3,9 @@
     const { isLoggedin, isOwner } = require("../middleware.js");
     const controllers = require("../comtrollers/listings.js");
     const multer = require("multer");
-    const { storage } = require("../cloudConfig.js");
-    const upload = multer({ storage });
+    // const { storage } = require("../cloudConfig.js");
+    // const upload = multer({ storage });
+    const upload = multer({ storage: multer.memoryStorage() }); // Use memory buffer
 
 
     // Index Route

@@ -1,3 +1,6 @@
+const { cloudinary } = require("../cloudConfig");
+const sharp = require("sharp");
+const { Readable } = require("stream");
 const Listing = require("../models/listing");
 
 module.exports.index = async (req, res) => {
@@ -21,35 +24,60 @@ module.exports.showDetails = async (req, res) => {
   res.render("listings/show", { listing });
 };
 
-module.exports.createListing = async (req, res, next) => {
+module.exports.createListing = async (req, res) => {
   try {
-    const url = req.file.path;
-    const filename = req.file.filename;
-    const { title, description, image, price, country, location } = req.body;
+    const { title, description, price, location, country } = req.body;
+
+    if (!req.file) {
+      req.flash("error", "Please upload an image.");
+      return res.redirect("/listings/new");
+    }
+
+    // 🔧 Compress to 85% quality and resize max width 1600px
+    const compressedBuffer = await sharp(req.file.buffer)
+      .resize({ width: 1600 }) // keep quality but reduce dimensions
+      .jpeg({ quality: 85 })   // moderate compression
+      .toBuffer();
+
+    // 📤 Upload to Cloudinary
+    const stream = Readable.from(compressedBuffer);
+    const result = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        {
+          folder: "wanderlust_DEV",
+        },
+        (error, result) => {
+          if (result) resolve(result);
+          else reject(error);
+        }
+      );
+      stream.pipe(uploadStream);
+    });
+
+    // 📦 Save listing to DB
     const newListing = new Listing({
       title,
       description,
-      image,
       price,
-      country,
       location,
+      country,
+      owner: req.user._id,
+      image: {
+        url: result.secure_url,
+        filename: result.public_id,
+      },
     });
-    newListing.owner = req.user._id;
-    newListing.image = { url, filename };
-    await newListing
-      .save()
-      .then(() => {
-        req.flash("success", "New Listing Created!");
-        res.redirect("/listings");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    await newListing.save();
+    req.flash("success", "New Listing Created!");
+    res.redirect("/listings");
   } catch (err) {
-    req.flash("error", `${err.message}`);
+    console.error("Error during listing creation:", err);
+    req.flash("error", "Something went wrong while creating the listing.");
     res.redirect("/listings/new");
   }
 };
+
 
 module.exports.updateListing = async (req, res) => {
   try {
